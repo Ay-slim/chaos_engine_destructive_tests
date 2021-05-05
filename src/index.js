@@ -52,6 +52,9 @@ function runDestructiveTests(options){
         for(eachInput in customInputs) {
             if(!Array.isArray(customInputs[eachInput])) throw new Error("Custom inputs must be an array of arrays.")
             if(customInputs[eachInput].length < funcToTest.length) throw new Error("The length of each set of inputs cannot be less than number of formal function parameters.")
+            const testResults = options.isPromise ? passInputsToAsyncFunction(funcToTest, customInputs[eachInput]) : passInputsToFunction(funcToTest, customInputs[eachInput])
+            const responseObject = generateResponseObject(testResults, 'Custom input', customInputs[eachInput])
+            responseArray.push(responseObject)
         }
     }
     for(const inputTypes in inputsObject) {
@@ -73,4 +76,4 @@ function runDestructiveTests(options){
 }
 
 // console.log(passInputsToFunction(testFunc, [5]))
-console.log(runDestructiveTests({functionToTest: testFunc, numOfInputs: 4}))
+console.log(runDestructiveTests({functionToTest: testFunc, numOfInputs: 3, customInputs: [['a', 'b', 2], ['five', 'three', null], 2]}))
