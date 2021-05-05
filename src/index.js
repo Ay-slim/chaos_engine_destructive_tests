@@ -6,6 +6,8 @@
 
 const inputsObject = require('./inputs.json')
 
+const optionsSchema = require('./validator')
+
 const testFunc = (first, second, third, fourth = false) => {
     return first.split('')
 }
@@ -43,6 +45,12 @@ function generateResponseObject(testResults, inputTypes, inputArray) {
     }
 }
 function runDestructiveTests(options){
+
+    const validation = optionsSchema.validate(options)
+    if(validation.error) {
+        throw new Error(validation.error)
+    }
+
     const funcToTest = options.functionToTest
     const inputCount = options.numOfInputs
 
@@ -77,7 +85,8 @@ function runDestructiveTests(options){
         }
     }
     //console.log(responseArray)
+    return responseArray
 }
 
 // console.log(passInputsToFunction(testFunc, [5]))
-console.log(runDestructiveTests({functionToTest: testFunc, numOfInputs: 3, customInputs: [['a', 'b', 2], ['five', 'three', null], 2]}))
+console.log(runDestructiveTests({functionToTest: testFunc, numOfInputs: 3, customInputs: [['a', 'b', 2], ['five', 'three', null]]}))
