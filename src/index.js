@@ -1,9 +1,3 @@
-// Validate that input is a function
-// Validate that number of inputs is an integer and specify a maximum value
-// Add is_promise flag and use it to add await as needed when dealing with a function that returns a promise
-// Make functionToTest and inputCount required fields
-// Validate that custom input matches arity
-
 const inputsObject = require('./inputs.json')
 
 const optionsSchema = require('./validator')
@@ -70,23 +64,16 @@ function runDestructiveTests(options){
     }
 
     for(const inputTypes in inputsObject) {
-        //console.log(inputTypes)
         for (let j in inputsObject[inputTypes]) {
-            //console.log(inputsObject[inputTypes][j])
             let inputArray = []
             for(let i = 0; i < inputCount; i++) {
                 inputArray.push(inputsObject[inputTypes][j])
             }
-            //console.log(inputArray)
             const testResults = options.isPromise ? passInputsToAsyncFunction(funcToTest, inputArray) : passInputsToFunction(funcToTest, inputArray)
-            //const testResults = passInputsToFunction(funcToTest, inputArray)
             const responseObject = generateResponseObject(testResults, inputTypes, inputArray)
             responseArray.push(responseObject)
         }
     }
-    //console.log(responseArray)
+    
     return responseArray
 }
-
-// console.log(passInputsToFunction(testFunc, [5]))
-console.log(runDestructiveTests({functionToTest: testFunc, numOfInputs: 3, customInputs: [['a', 'b', 2], ['five', 'three', null]]}))
