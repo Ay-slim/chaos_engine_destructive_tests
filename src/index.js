@@ -45,8 +45,11 @@ function generateResponseObject(testResults, inputTypes, inputArray) {
 function runDestructiveTests(options){
     const funcToTest = options.functionToTest
     const inputCount = options.numOfInputs
+
     if(inputCount < funcToTest.length) throw new Error("Number of inputs cannot be less than number of formal function parameters")
+
     let responseArray = []
+
     if(options.customInputs) {
         const customInputs = options.customInputs;
         for(eachInput in customInputs) {
@@ -57,6 +60,7 @@ function runDestructiveTests(options){
             responseArray.push(responseObject)
         }
     }
+
     for(const inputTypes in inputsObject) {
         //console.log(inputTypes)
         for (let j in inputsObject[inputTypes]) {
@@ -72,7 +76,7 @@ function runDestructiveTests(options){
             responseArray.push(responseObject)
         }
     }
-    console.log(responseArray)
+    //console.log(responseArray)
 }
 
 // console.log(passInputsToFunction(testFunc, [5]))
