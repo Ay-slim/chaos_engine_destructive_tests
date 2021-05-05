@@ -11,12 +11,16 @@
     "url": "git+https://github.com/Ay-slim/chaos_engine_destructive_tests.git"
   },
   "keywords": [
-    "Destructive tests", "Chaos engine"
+    "Destructive tests",
+    "Chaos engine"
   ],
   "author": "Ayooluwa Adedipe",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Ay-slim/chaos_engine_destructive_tests/issues"
   },
-  "homepage": "https://github.com/Ay-slim/chaos_engine_destructive_tests#readme"
+  "homepage": "https://github.com/Ay-slim/chaos_engine_destructive_tests#readme",
+  "dependencies": {
+    "joi": "^17.4.0"
+  }
 }
