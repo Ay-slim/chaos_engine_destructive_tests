@@ -2,10 +2,6 @@ const inputsObject = require('./inputs.json')
 
 const optionsSchema = require('./validator')
 
-const testFunc = (first, second, third, fourth = false) => {
-    return first.split('')
-}
-
 function passInputsToFunction(functionToTest, input){
     try{
         return functionToTest(...input)
@@ -14,10 +10,9 @@ function passInputsToFunction(functionToTest, input){
     }
 }
 
-async function passInputsToAsyncFunction(functionToTest, input){
+async function passInputsToAsyncFunction (functionToTest, input) {
     try{
-        const asyncResult = await functionToTest(...input)
-        return asyncResult
+        return await functionToTest(...input)
     }catch(err){
         return {error_name: err.name, error_message: err.message}
     }
@@ -38,6 +33,7 @@ function generateResponseObject(testResults, inputTypes, inputArray) {
         }
     }
 }
+
 function runDestructiveTests(options){
 
     const validation = optionsSchema.validate(options)
@@ -57,7 +53,7 @@ function runDestructiveTests(options){
         for(eachInput in customInputs) {
             if(!Array.isArray(customInputs[eachInput])) throw new Error("Custom inputs must be an array of arrays.")
             if(customInputs[eachInput].length < funcToTest.length) throw new Error("The length of each set of inputs cannot be less than number of formal function parameters.")
-            const testResults = options.isPromise ? passInputsToAsyncFunction(funcToTest, customInputs[eachInput]) : passInputsToFunction(funcToTest, customInputs[eachInput])
+            const testResults = options.returnsPromise ? passInputsToAsyncFunction(funcToTest, customInputs[eachInput]) : passInputsToFunction(funcToTest, customInputs[eachInput])
             const responseObject = generateResponseObject(testResults, 'Custom input', customInputs[eachInput])
             responseArray.push(responseObject)
         }
@@ -69,7 +65,7 @@ function runDestructiveTests(options){
             for(let i = 0; i < inputCount; i++) {
                 inputArray.push(inputsObject[inputTypes][j])
             }
-            const testResults = options.isPromise ? passInputsToAsyncFunction(funcToTest, inputArray) : passInputsToFunction(funcToTest, inputArray)
+            const testResults = options.returnsPromise ? passInputsToAsyncFunction(funcToTest, inputArray) : passInputsToFunction(funcToTest, inputArray)
             const responseObject = generateResponseObject(testResults, inputTypes, inputArray)
             responseArray.push(responseObject)
         }
@@ -77,3 +73,5 @@ function runDestructiveTests(options){
     
     return responseArray
 }
+
+module.exports = runDestructiveTests;
