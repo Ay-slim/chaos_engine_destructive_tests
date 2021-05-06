@@ -9,7 +9,7 @@ const optionsSchema = joi.object({
         "number.max": "number of inputs cannot be greater than 10"
     }),
     customInputs: joi.array(),
-    isPromise: joi.boolean()
+    returnsPromise: joi.boolean()
 })
 
 module.exports = optionsSchema
